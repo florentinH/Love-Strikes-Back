@@ -84,19 +84,21 @@ module.exports=render
 
 const home = __webpack_require__(2)
 const personnage = __webpack_require__(5)
+const profile = __webpack_require__(7)
 
 
 
-//
-// const checkLoginMiddleware = (context, next) => {
-//   if (LoggedInUser === undefined){
-//     page('/')
-//   }
-//   next()
-// }
+
+const checkLoginMiddleware = (context, next) => {
+  if (LoggedInUser === undefined){
+    page('/')
+  }
+  next()
+}
 
 page("/", home)
 page("/personnage", personnage)
+page("/profile", checkLoginMiddleware, profile)
 // page("/pagePerso",checkLoginMiddleware, showMyProfile)
 page()
 
@@ -178,23 +180,23 @@ const navBarhtml = () => `<nav class="navbar navbar-expand-sm bg-custom">
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form id="form-account" method="POST" action="/sign-in">
+                      <form id="form-post" method="POST" action="/sign-in">
                        <div class="form-group row">
                            <label for="identifiant" class="col-sm-4 col-form-label">Pseudo:</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="pseudo" name="pseudo">
+                               <input type="text" class="form-control" id="pseudo" name="signedPseudo">
                            </div>
                        </div>
                        <div class="form-group row">
                            <label for="mdp" class="col-sm-4 col-form-label">Mot de passe :</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="password" name="password">
+                               <input type="text" class="form-control" id="password" name="signedPassword">
                            </div>
                        </div>
                     </div>
                   </form>
                     <div class="modal-footer">
-                        <input form="form-account" type="submit" class="btn btn-primary" value="Valider">
+                        <input form="form-post" type="submit" class="btn btn-primary" value="Valider">
                     </div>
                   </div>
                 </div>
@@ -231,9 +233,9 @@ const navBarhtml = () => `<nav class="navbar navbar-expand-sm bg-custom">
                            <label for="email" class="col-sm-4 col-form-label">Genre : </label>
                            <div class="col-sm-6">
                              <select id="gender" name="gender" class="form-control">
-                              <option value="1">Femme</option>
-                              <option value="2" selected>Homme</option>
-                              <option value="3">Hermaphrodite</option>
+                              <option value="male">Homme</option>
+                              <option value="female" selected>Femme</option>
+                              <option value="hermaphrodite">Hermaphrodite</option>
                             </select>
                            </div>
                        </div>
@@ -249,7 +251,86 @@ const navBarhtml = () => `<nav class="navbar navbar-expand-sm bg-custom">
       </div>
   </nav>`
 
-  module.exports=navBarhtml
+
+  function setEventListeners (){
+      const signIn = document.getElementById('form-post')
+      signIn.addEventListener('submit', event => {
+
+        event.preventDefault()
+        const inputs = signIn.getElementsByTagName('input')
+        let data = {}
+        for (let input of inputs) {
+          if (input.name !== '') {
+           data[input.name] = input.value
+          }
+        }
+
+        const dataJSON = JSON.stringify(data)
+        console.log(dataJSON)
+        fetch('/sign-in', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: dataJSON
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            alert(data.error)
+          }
+          else {
+            LoggedInUser = data
+            page('/profile')
+          }
+          console.log(data)
+        })
+      })
+
+        const signUp = document.getElementById('form-account')
+        console.log(signUp)
+        signUp.addEventListener('submit', event => {
+
+          event.preventDefault()
+          const inputsForm = signUp.getElementsByTagName('input')
+          let accountData = {}
+          for (let input of inputsForm) {
+            if (input.name !== '') {
+                accountData[input.name] = input.value
+            }
+            if (input.value === '') {
+              return alert('Veuillez renseigner tous les champs')
+            }
+          }
+          const accountDataJSON = JSON.stringify(accountData)
+
+
+          fetch('/sign-up', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: accountDataJSON
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.error) {
+              alert(data.error)
+            }
+            else {
+              LoggedInUser = data
+              page('/personnage')
+            }
+            console.log(accountData)
+          })
+      })
+  }
+
+module.exports=navBarhtml
 
 
 /***/ }),
@@ -274,6 +355,65 @@ const personnagehtml = () => `
 `
 
 module.exports=personnagehtml
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const render = __webpack_require__(0)
+// const searchFormEvents = require('./searchFormEvents')
+const profilehtml = __webpack_require__(8)
+
+module.exports = () => {
+  render(profilehtml())
+}
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+const profilehtml = () => `
+<h2>Deviens un vrai Jedi de l'amour</h2>
+<form>
+  <div class="form-group row">
+    <label for="age" class="col-sm-2 col-form-label">Quel age as-tu ?</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="age" placeholder="150">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="job" class="col-sm-2 col-form-label">Que fais-tu dans la vie ?</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="job" placeholder="Padawan">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="description" class="col-sm-2 col-form-label">Qui es-tu ?</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="description" placeholder="Salut ! Je suis Germain, passionné d'art martiaux !">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="leitimov" class="col-sm-2 col-form-label">Ta réplique préférée de Star Wars :</label>
+    <div class="col-sm-10">
+      <select id="leitimov" name="leitimov" class="form-control">
+       <option value="1">"La force sera avec toi, toujours." - Ben Kenobi</option>
+       <option value="2">"Plutôt embrasser un wookie!" - Leia Organa</option>
+       <option value="3">"Non, je suis ton père." - Dark Vador</option>
+       <option value="4">"Il y en a toujours un pour manger l'autre" - Qui-Gon Jinn</option>
+       <option value="5">"La peur est le chemin vers le côté obscur: la peur mène à la colère,  le colère mène à la haine, la haine mène à la souffrance." - Yoda</option>
+       <option value="6">"Tu ne vends pas de bâtons de la mort, tu vas rentrer chez toi et penser à ton avenir." - Obi-Wan Kenobi</option>
+       <option value="7">"Même si notre armement est assez puissant pour détruire une planète, il est bien peu de chose en comparaison de la Force" - Dark Vador</option>
+       <option value="8">"C''est donc ainsi que s''achève la liberté, sous un tonnerre d''applaudissements." - Padmé Amidala</option>
+       <option value="9" selected>"Chewie, on est à la maison." - Han Solo</option>
+    </div>
+  </div>
+</form>
+`
+
+module.exports=profilehtml
 
 
 /***/ })
