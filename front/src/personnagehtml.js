@@ -11,7 +11,7 @@ const personnagehtml = (character) => /* @html */`
   </li>
   </ul>
 </a> -->
-<div id="myCarousel" class="carousel slide bg-inverse w-50 ml-auto mr-auto" data-ride="carousel">
+<!-- <div id="myCarousel" class="carousel slide bg-inverse w-50 ml-auto mr-auto" data-ride="carousel">
   <div class="carousel-inner" role="listbox">
     <div class="carousel-item active">
       <img class="d-block w-100" src="${character.image}" alt="First slide">
@@ -34,7 +34,7 @@ const personnagehtml = (character) => /* @html */`
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
-</div>
+</div> -->
 `
 
 module.exports=personnagehtml

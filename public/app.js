@@ -216,7 +216,48 @@ const personnagehtml = (character) => /* @html */`
     <span class="sr-only">Next</span>
   </a>
 </div>
+
+
+  <!-- <section class="slider-for slider">
+
+  </section>
+  <section class="slider-nav slider">
+
+  </section>
+  <script type="text/javascript">
+    $(document).on('ready', function() {
+
+      $('.slider-for').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        fade: true,
+        asNavFor: '.slider-nav'
+      });
+      $('.slider-nav').slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        asNavFor: '.slider-for',
+        dots: true,
+        centerMode: true,
+        focusOnSelect: true
+      });
+
+    });
+  </script> -->
 `
+// function getData() {
+//     $.getJSON("item-data.json", function(results) {
+//         var slideShowArray = results.characters.map(item => item.Images.map(imgs =>[imgs.PrimaryImage[0].image, ...imgs.AlternateImages.map(alt => alt.image)]))[0][0];
+//         $.each(slideShowArray, function(k, v){
+//             var slidesBig = "<div><img src='" + v + "'></div>";
+//             var slidesSmall = "<div><img src='" + v + "'></div>";
+//             $(".slider-for").slick("slickAdd", slidesBig);
+//             $(".slider-nav").slick("slickAdd", slidesSmall);
+//         });
+//
+//     });
+// }
 
 module.exports=personnagehtml
 
