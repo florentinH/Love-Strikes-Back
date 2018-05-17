@@ -1,8 +1,7 @@
 'use strict'
 
 const home = require('./home')
-
-
+const personnage = require('./personnage')
 
 
 
@@ -15,5 +14,6 @@ const home = require('./home')
 // }
 
 page("/", home)
+page("/personnage", personnage)
 // page("/pagePerso",checkLoginMiddleware, showMyProfile)
 page()
