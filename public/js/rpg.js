@@ -1,6 +1,6 @@
 var map = new Carte("premiere");
 
-var joueur = new Personnage("exemple.png", 7, 14, DIRECTION.BAS);
+var joueur = new Personnage("chemin.png", 7, 14, DIRECTION.BAS);
 map.addPersonnage(joueur);
 
 window.onload = function() {

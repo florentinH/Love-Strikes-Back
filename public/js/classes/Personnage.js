@@ -13,14 +13,14 @@ function Personnage(url, x, y, direction) {
 	this.y = y; // (en cases)
 	this.direction = direction;
 	this.etatAnimation = -1;
-	
+
 	// Chargement de l'image dans l'attribut image
 	this.image = new Image();
 	this.image.referenceDuPerso = this;
 	this.image.onload = function() {
-		if(!this.complete) 
+		if(!this.complete)
 			throw "Erreur de chargement du sprite nommé \"" + url + "\".";
-		
+
 		// Taille du personnage
 		this.referenceDuPerso.largeur = this.width / 4;
 		this.referenceDuPerso.hauteur = this.height / 4;
@@ -40,10 +40,10 @@ Personnage.prototype.dessinerPersonnage = function(context) {
 		if(frame > 3) {
 			frame %= 4;
 		}
-		
+
 		// Nombre de pixels restant à parcourir entre les deux cases
 		var pixelsAParcourir = 32 - (32 * (this.etatAnimation / DUREE_DEPLACEMENT));
-		
+
 		// À partir de ce nombre, on définit le décalage en x et y.
 		if(this.direction == DIRECTION.HAUT) {
 			decalageY = pixelsAParcourir;
@@ -54,18 +54,18 @@ Personnage.prototype.dessinerPersonnage = function(context) {
 		} else if(this.direction == DIRECTION.DROITE) {
 			decalageX = -pixelsAParcourir;
 		}
-		
+
 		// On incrémente d'une frame
 		this.etatAnimation++;
 	}
 	/*
-	 * Si aucune des deux conditions n'est vraie, c'est qu'on est immobile, 
-	 * donc il nous suffit de garder les valeurs 0 pour les variables 
+	 * Si aucune des deux conditions n'est vraie, c'est qu'on est immobile,
+	 * donc il nous suffit de garder les valeurs 0 pour les variables
 	 * frame, decalageX et decalageY
 	 */
-	
+
 	context.drawImage(
-		this.image, 
+		this.image,
 		this.largeur * frame, this.direction * this.hauteur, // Point d'origine du rectangle source à prendre dans notre image
 		this.largeur, this.hauteur, // Taille du rectangle source (c'est la taille du personnage)
 		// Point de destination (dépend de la taille du personnage)
@@ -77,16 +77,16 @@ Personnage.prototype.dessinerPersonnage = function(context) {
 Personnage.prototype.getCoordonneesAdjacentes = function(direction) {
 	var coord = {'x' : this.x, 'y' : this.y};
 	switch(direction) {
-		case DIRECTION.BAS : 
+		case DIRECTION.BAS :
 			coord.y++;
 			break;
-		case DIRECTION.GAUCHE : 
+		case DIRECTION.GAUCHE :
 			coord.x--;
 			break;
-		case DIRECTION.DROITE : 
+		case DIRECTION.DROITE :
 			coord.x++;
 			break;
-		case DIRECTION.HAUT : 
+		case DIRECTION.HAUT :
 			coord.y--;
 			break;
 	}
@@ -101,21 +101,21 @@ Personnage.prototype.deplacer = function(direction, map) {
 
 	// On change la direction du personnage
 	this.direction = direction;
-		
+
 	// On vérifie que la case demandée est bien située dans la carte
 	var prochaineCase = this.getCoordonneesAdjacentes(direction);
 	if(prochaineCase.x < 0 || prochaineCase.y < 0 || prochaineCase.x >= map.getLargeur() || prochaineCase.y >= map.getHauteur()) {
-		// On retourne un booléen indiquant que le déplacement ne s'est pas fait, 
+		// On retourne un booléen indiquant que le déplacement ne s'est pas fait,
 		// Ça ne coute pas cher et ca peut toujours servir
 		return false;
 	}
-	
+
 	// On commence l'animation
 	this.etatAnimation = 1;
-		
+
 	// On effectue le déplacement
 	this.x = prochaineCase.x;
 	this.y = prochaineCase.y;
-		
+
 	return true;
 }
