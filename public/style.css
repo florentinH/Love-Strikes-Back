@@ -1,3 +1,17 @@
 canvas {
+    margin-left: 23%;
     border: 1px solid black;
+    position: absolute;
+}
+
+.bb8{
+  position: relative;
+  width: 40px;
+  margin: 110px 0 0 370px;
+}
+
+.yoda{
+  position: relative;
+  width: 40px;
+  margin: 200px 0 0 500px;
 }
