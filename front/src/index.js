@@ -5,6 +5,7 @@ const personnage = require('./personnage')
 const profile = require('./profile')
 
 
+const chat = require('./chat')
 
 
 const checkLoginMiddleware = (context, next) => {
@@ -15,7 +16,8 @@ const checkLoginMiddleware = (context, next) => {
 }
 
 page("/", home)
-page("/personnage", personnage)
+page("/personnage", checkLoginMiddleware, personnage)
 page("/profile", checkLoginMiddleware, profile)
+page("/chat", checkLoginMiddleware, chat)
 // page("/pagePerso",checkLoginMiddleware, showMyProfile)
 page()

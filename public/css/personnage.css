@@ -1,0 +1,228 @@
+body{
+	background-image: url('JEUXFIGHT/PAGE2/FONDPAGE2.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+
+}
+
+p{
+	text-align: center;
+	margin-top: 10px;
+}
+
+p img {
+	max-height: 90px;
+}
+
+.title2{
+	width: 500px;
+}
+
+#menu{
+	visibility: hidden;
+}
+
+#menu:hover {
+	visibility: visible;
+}
+
+#dg-container{
+	width: 100%;
+	/* height: 450px; */
+	position: relative;
+}
+
+#dg-wrapper{
+	width: 481px;
+	height: 560px;
+	margin: 0 auto;
+	position: relative;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	-o-transform-style: preserve-3d;
+	-ms-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-perspective: 1000px;
+	-moz-perspective: 1000px;
+	-o-perspective: 1000px;
+	-ms-perspective: 1000px;
+	perspective: 1000px;
+}
+
+#dg-container > img{
+	margin-left: 700px;
+	margin-top: 10px;
+}
+
+#dg-wrapper a:link{
+	width: 320px;
+	height: 470px;
+	display: block;
+	position: absolute;
+	top: 30px;
+	left: 80px;
+	text-decoration:none;
+}
+
+#dg-wrapper a p{
+	margin-top: 10px;
+	text-align: center;
+	font-size: 30px;
+	color: black;
+	text-shadow: 2px 2px 5px #2DF69A;
+	font-family: 'Francois One', sans-serif;
+}
+
+#dg-wrapper a ul {
+	display: none;
+    position: absolute;
+    bottom: 0;
+	background: rgba(211, 216, 210, 0.61);
+	width: 100%;
+	text-align: center;
+	font-family: 'Francois One', sans-serif;
+	color: black;
+	padding-top: 3px;
+	padding-bottom: 5px;
+}
+#dg-wrapper a.highlight ul {
+	display: block;
+}
+#dg-wrapper a ul li {
+	list-style-type: none;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+#dg-wrapper a ul button{
+	background: #2DF69A;
+	border-color:  #2DF69A;
+}
+
+#dg-wrapper a ul button:hover{
+	background: #2DF69A;
+	border-color:  #2DF69A;
+}
+
+#dg-wrapper a.dg-transition{
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+
+#dg-wrapper a img{
+	display: block;
+	box-shadow: 8px 10px 9px black;
+}
+
+#dg-wrapper a div {
+	line-height: 50px;
+	width: 100%;
+	bottom: -55px;
+	display: none;
+	position: absolute;
+}
+
+#dg-wrapper a.dg-center div{
+	display: block;
+}
+
+#dg-container nav{
+	width: 58px;
+	position: absolute;
+	z-index: 1000;
+	top: 5px;
+	left: 50%;
+	margin-left: -29px;
+}
+
+ #dg-container nav a{
+	text-indent: -9000px;
+	float: left;
+	cursor:pointer;
+	width: 50px;
+	height: 25px;
+}
+
+#dg-container nav span.dg-next{
+	background-position: top right;
+	margin-left: 10px;
+}
+
+
+/* TABLEAU DE JEU */
+
+
+#titre {
+	margin: 0 auto;
+	display: block;
+	width: 30%;
+}
+
+#player1 {
+	width: 70%;
+	border : 5px solid blue;
+	border-radius: 25px;
+}
+
+#player2 {
+	width: 70%;
+	border : 5px solid red;
+	border-radius: 25px;
+}
+.players img.verso {
+	margin-left: 15%;
+	width: 70%;
+	border : solid 3px;
+	border-radius: 25px;
+	z-index: 1;
+	visibility: visible;
+	position: absolute;
+}
+
+.players img.recto {
+	margin-left: 15%;
+	width: 70%;
+	border : solid 3px;
+	border-radius: 25px;
+	position: absolute;
+}
+
+
+.players img.verso.active {
+	z-index: 0;
+	visibility: hidden;
+	position: absolute;
+}
+
+
+#coeur{
+	/*width: 80%;*/
+
+}
+
+#player-two{
+	text-align: right;
+}
+
+#coeur2{
+	/*width: 80%;*/
+
+}
+
+.coeur {
+	height: 150px;
+}
+
+.game-over {
+	position: absolute;
+	text-align: center;
+	z-index: 100;
+	top: 200px;
+	left: 25%;
+	width: 50%;
+	color: #fff;
+	font-size: 18px;
+	background: rgba(0, 0, 0, 0.7);
+}

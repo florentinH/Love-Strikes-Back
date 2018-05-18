@@ -88,9 +88,10 @@ module.exports=render
 
 const home = __webpack_require__(2)
 const personnage = __webpack_require__(7)
-const profile = __webpack_require__(9)
+const profile = __webpack_require__(10)
 
 
+const chat = __webpack_require__(12)
 
 
 const checkLoginMiddleware = (context, next) => {
@@ -101,8 +102,9 @@ const checkLoginMiddleware = (context, next) => {
 }
 
 page("/", home)
-page("/personnage", personnage)
+page("/personnage", checkLoginMiddleware, personnage)
 page("/profile", checkLoginMiddleware, profile)
+page("/chat", checkLoginMiddleware, chat)
 // page("/pagePerso",checkLoginMiddleware, showMyProfile)
 page()
 
@@ -364,31 +366,111 @@ module.exports = setEventListeners
 
 const render = __webpack_require__(0)
 // const searchFormEvents = require('./searchFormEvents')
-const personnagehtml = __webpack_require__(8)
-
+const carousel = __webpack_require__(8)
+// Requête une URL pour récupérer UN héros
+// $('#dg-container').gallery();
 module.exports = () => {
-  render(personnagehtml())
+  fetch('https://cdn.rawgit.com/akabab/starwars-api/0.2.1/api/all.json')
+  .then(response => response.json())
+  .then(characters => {
+    render(carousel(characters))
+    $("#myCarousel").carousel({interval: false});
+
+    const validAvatar = document.getElementById('buttonVal')
+
+    validAvatar.addEventListener('click', evt => {
+      const active = document.getElementsByClassName('active')
+      console.log(active)
+    })
+  })
+
 }
+
+// {/* <section id="dg-container" class="dg-container">
+//   <div class="dg-wrapper">
+// // </div>
+// // <nav>
+// //   <a class="dg-prev" href="#dg-wrapper" data-slide="prev"><span class="carousel-control-prev-icon"></span></a>
+// //   <a class="dg-next" href="#dg-wrapper" data-slide="next"><span class="carousel-control-next-icon"></span></a>
+// // </nav>
+// // <!-- <nav>
+// // <span class="dg-prev" img src="JEUXFIGHT/PAGE2/ARROW.png" alt="arrow"></span>
+// // <span class="dg-next"></span>
+// // </nav> -->
+// // </section> */}
+// fetch('https://cdn.rawgit.com/akabab/superhero-api/0.2.0/api/all.json')
+// .then(response => response.json())
+// .then(allHeroes => {
+// const indices = getRandom()
+// heroes = allHeroes.filter(
+// (hero, i) => indices.includes(i)
+// )
+// console.log(heroes)
+// let html = ''
+// for(hero of heroes) {
+// html += createHero(hero)
+// }
+//
+// targetElement.innerHTML = charSelection(html)
+// })
 
 
 /***/ }),
 /* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+const personnagehtml = __webpack_require__(9)
+
+const carousel = characters => /* @html */ `
+<div class="container">
+  <div id="myCarousel" class="carousel slide bg-inverse w-50 ml-auto mr-auto" data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+    ${characters.map(personnagehtml).join('')}
+  </div>
+  <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<div class="row">
+  <div class="col-md-2 offset-md-7">
+    <button id="buttonVal" class="btn btn-warning">Validé</button>
+  </div>
+</div>
+</div>
+`
+
+module.exports = carousel
+
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports) {
 
-const personnagehtml = () => `
-  <h1>hello personnage</h1>
+const personnagehtml = (character, index) => /* @html */`
+
+    <div class="carousel-item ${index==0 ? 'active' : ''}">
+      <img class="d-block w-100" src="${character.image}" alt="First slide">
+      <p>"${character.name}"</p>
+    </div>
+
 `
 
 module.exports=personnagehtml
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const render = __webpack_require__(0)
 // const searchFormEvents = require('./searchFormEvents')
-const profilehtml = __webpack_require__(10)
+const profilehtml = __webpack_require__(11)
 
 module.exports = () => {
   render(profilehtml())
@@ -431,7 +513,7 @@ module.exports = () => {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 const profilehtml = () => /* @html */`
@@ -481,6 +563,40 @@ const profilehtml = () => /* @html */`
 */
 
 module.exports=profilehtml
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const render = __webpack_require__(0)
+// const searchFormEvents = require('./searchFormEvents')
+const chathtml = __webpack_require__(13)
+
+module.exports = () => {
+  fetch('https://cdn.rawgit.com/akabab/starwars-api/0.2.1/api/all.json')
+  .then(response => response.json())
+  .then(characters => {
+
+    const chatshtml = characters.map(chathtml)
+    render(chatshtml)
+  })
+}
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+const chathtml = (character) => `
+<h1>Je tchat avec :</h1>
+  <img src="${character.image}" alt="${character.name}"/>
+  <p>"${character.gender}"</p>
+  <p>"${character.race}"</p>
+  <p>"${character.name}"</p>
+`
+
+module.exports=chathtml
 
 
 /***/ })

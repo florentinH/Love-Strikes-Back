@@ -57,8 +57,12 @@ const indexHtml = user => /* @html */ `
   <head>
     <meta charset="utf-8">
     <title>accueil</title>
-    <link rel="stylesheet" href="css/accueil.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" href="css/chat.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <!-- <link rel="stylesheet" href="css/personnage.css"> -->
+      <link rel="stylesheet" href="css/accueil.css">
+      <link rel="stylesheet" href="css/carousel.css">
+
   </head>
   <body>
 
@@ -77,6 +81,7 @@ const indexHtml = user => /* @html */ `
    <script src="/page.js"></script>
    <script src="/app.js"></script>
    <script> let LoggedInUser = ${JSON.stringify(user)}</script>
+
 
   </body>
 </html>
