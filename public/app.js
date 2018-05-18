@@ -323,6 +323,7 @@ const carousel = characters => /* @html */ `
   <span class="sr-only">Next</span>
 </a>
 </div>
+<button id="buttonVal" onclick="validAvatar" class="btn">Validé</button>
 `
 
 module.exports = carousel
