@@ -7,10 +7,15 @@ module.exports = () => {
   fetch('https://cdn.rawgit.com/akabab/starwars-api/0.2.1/api/all.json')
   .then(response => response.json())
   .then(characters => {
-
     render(carousel(characters))
-    $("#myCarousel").carousel();
+    $("#myCarousel").carousel({interval: false});
 
+    const validAvatar = document.getElementById('buttonVal')
+
+    validAvatar.addEventListener('click', evt => {
+      const active = document.getElementsByClassName('active')
+      console.log(active)
+    })
   })
 
 }

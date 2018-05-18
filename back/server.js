@@ -58,7 +58,9 @@ const indexHtml = /* @html */ `
     <title>accueil</title>
       <link rel="stylesheet" href="css/chat.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-      <link rel="stylesheet" href="css/personnage.css">
+      <!-- <link rel="stylesheet" href="css/personnage.css"> -->
+      <link rel="stylesheet" href="css/accueil.css">
+      <link rel="stylesheet" href="css/carousel.css">
 
   </head>
   <body>
