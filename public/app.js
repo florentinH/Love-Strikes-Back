@@ -83,8 +83,8 @@ module.exports=render
 
 
 const home = __webpack_require__(2)
-const personnage = __webpack_require__(5)
-const profile = __webpack_require__(7)
+const personnage = __webpack_require__(6)
+const profile = __webpack_require__(8)
 
 
 
@@ -110,10 +110,10 @@ page()
 const render = __webpack_require__(0)
 // const searchFormEvents = require('./searchFormEvents')
 const homehtml = __webpack_require__(3)
-const navBarhtml = __webpack_require__(4)
+const navBar = __webpack_require__(4)
 
 module.exports = () => {
-  render(navBarhtml() + homehtml())
+  render(navBar() + homehtml())
 }
 
 
@@ -162,9 +162,113 @@ module.exports=homehtml
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const navBarhtml = __webpack_require__(5)
+
+function removeBackdrops() {
+  const backdrops = document.getElementsByClassName('modal-backdrop')
+  if (backdrops.length > 0) {
+    document.body.removeChild(backdrops[0])
+  }
+  document.body.classList.remove('modal-open')
+}
+
+
+function setEventListeners (){
+    const signIn = document.getElementById('form-post')
+    signIn.addEventListener('submit', event => {
+
+      event.preventDefault()
+      const inputs = signIn.getElementsByTagName('input')
+      let data = {}
+      for (let input of inputs) {
+        if (input.name !== '') {
+         data[input.name] = input.value
+        }
+      }
+
+      const dataJSON = JSON.stringify(data)
+      console.log(dataJSON)
+      fetch('/sign-in', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: dataJSON
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          alert(data.error)
+        }
+        else {
+          LoggedInUser = data
+          page('/profile')
+        }
+        console.log(data)
+      })
+    })
+
+      const signUp = document.getElementById('form-account')
+      console.log(signUp)
+      signUp.addEventListener('submit', event => {
+
+        event.preventDefault()
+        const inputsForm = signUp.getElementsByTagName('input')
+        let accountData = {}
+        for (let input of inputsForm) {
+          if (input.name !== '') {
+              accountData[input.name] = input.value
+          }
+          if (input.value === '') {
+            return alert('Veuillez renseigner tous les champs')
+          }
+        }
+        const accountDataJSON = JSON.stringify(accountData)
+
+
+        fetch('/sign-up', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: accountDataJSON
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            alert(data.error)
+          }
+          else {
+            LoggedInUser = data
+            page('/personnage')
+          }
+          console.log(accountData)
+        })
+    })
+}
+
+module.exports = mainHTML => {
+
+  mainDiv.innerHTML = navBar+ mainHTML + footerHtml
+
+  if (LoggedInUser === undefined) {
+    setEventListeners ()
+  }
+  removeBackdrops()
+}
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports) {
 
-const navBarhtml = () => `<nav class="navbar navbar-expand-sm bg-custom">
+module.exports = () => `<nav class="navbar navbar-expand-sm bg-custom">
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav ml-auto">
             <div class="navbar-nav">
@@ -252,94 +356,13 @@ const navBarhtml = () => `<nav class="navbar navbar-expand-sm bg-custom">
   </nav>`
 
 
-  function setEventListeners (){
-      const signIn = document.getElementById('form-post')
-      signIn.addEventListener('submit', event => {
-
-        event.preventDefault()
-        const inputs = signIn.getElementsByTagName('input')
-        let data = {}
-        for (let input of inputs) {
-          if (input.name !== '') {
-           data[input.name] = input.value
-          }
-        }
-
-        const dataJSON = JSON.stringify(data)
-        console.log(dataJSON)
-        fetch('/sign-in', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include',
-          body: dataJSON
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.error) {
-            alert(data.error)
-          }
-          else {
-            LoggedInUser = data
-            page('/profile')
-          }
-          console.log(data)
-        })
-      })
-
-        const signUp = document.getElementById('form-account')
-        console.log(signUp)
-        signUp.addEventListener('submit', event => {
-
-          event.preventDefault()
-          const inputsForm = signUp.getElementsByTagName('input')
-          let accountData = {}
-          for (let input of inputsForm) {
-            if (input.name !== '') {
-                accountData[input.name] = input.value
-            }
-            if (input.value === '') {
-              return alert('Veuillez renseigner tous les champs')
-            }
-          }
-          const accountDataJSON = JSON.stringify(accountData)
-
-
-          fetch('/sign-up', {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: accountDataJSON
-          })
-          .then(response => response.json())
-          .then(data => {
-            if (data.error) {
-              alert(data.error)
-            }
-            else {
-              LoggedInUser = data
-              page('/personnage')
-            }
-            console.log(accountData)
-          })
-      })
-  }
-
-module.exports=navBarhtml
-
-
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const render = __webpack_require__(0)
 // const searchFormEvents = require('./searchFormEvents')
-const personnagehtml = __webpack_require__(6)
+const personnagehtml = __webpack_require__(7)
 
 module.exports = () => {
   render(personnagehtml())
@@ -347,7 +370,7 @@ module.exports = () => {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 const personnagehtml = () => `
@@ -358,12 +381,12 @@ module.exports=personnagehtml
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const render = __webpack_require__(0)
 // const searchFormEvents = require('./searchFormEvents')
-const profilehtml = __webpack_require__(8)
+const profilehtml = __webpack_require__(9)
 
 module.exports = () => {
   render(profilehtml())
@@ -371,7 +394,7 @@ module.exports = () => {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 const profilehtml = () => `
