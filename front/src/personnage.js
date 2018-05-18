@@ -15,7 +15,9 @@ module.exports = () => {
     validAvatar.addEventListener('click', evt => {
       const active = document.getElementsByClassName('active')
       console.log(active)
+      page('/profile')
     })
+
   })
 
 }

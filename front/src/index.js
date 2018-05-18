@@ -16,8 +16,8 @@ const checkLoginMiddleware = (context, next) => {
 }
 
 page("/", home)
-page("/personnage", checkLoginMiddleware, personnage)
-page("/profile", checkLoginMiddleware, profile)
-page("/chat", checkLoginMiddleware, chat)
+page("/personnage", personnage)
+page("/profile", profile)
+page("/chat", chat)
 // page("/pagePerso",checkLoginMiddleware, showMyProfile)
 page()
