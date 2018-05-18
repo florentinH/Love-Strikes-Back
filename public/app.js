@@ -519,7 +519,7 @@ module.exports = () => {
 /***/ (function(module, exports) {
 
 const profilehtml = () => /* @html */`
-<h2>Deviens un vrai Jedi de l'amour</h2>
+<h2 class="profileh2">Deviens un vrai Jedi de l'amour</h2>
 <form id="form-profile" method="POST" action="/update-profile">
   <div class="form-group row">
     <label for="age" class="col-sm-2 col-form-label">Quel age as-tu ?</label>

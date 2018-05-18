@@ -62,6 +62,7 @@ const indexHtml = user => /* @html */ `
       <!-- <link rel="stylesheet" href="css/personnage.css"> -->
       <link rel="stylesheet" href="css/accueil.css">
       <link rel="stylesheet" href="css/carousel.css">
+      <link rel="stylesheet" href="css/profile.css">
 
   </head>
   <body>
