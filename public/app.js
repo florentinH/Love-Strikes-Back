@@ -84,7 +84,7 @@ module.exports=render
 
 const home = __webpack_require__(2)
 const personnage = __webpack_require__(4)
-const chat = __webpack_require__(6)
+const chat = __webpack_require__(7)
 
 //
 // const checkLoginMiddleware = (context, next) => {
@@ -131,7 +131,7 @@ module.exports=homehtml
 
 const render = __webpack_require__(0)
 // const searchFormEvents = require('./searchFormEvents')
-const personnagehtml = __webpack_require__(5)
+const carousel = __webpack_require__(5)
 // Requête une URL pour récupérer UN héros
 // $('#dg-container').gallery();
 module.exports = () => {
@@ -139,13 +139,13 @@ module.exports = () => {
   .then(response => response.json())
   .then(characters => {
 
-    const charactershtml = characters.map(personnagehtml)
-
-    render(charactershtml)
+    render(carousel(characters))
+    $("#myCarousel").carousel();
 
   })
 
 }
+
 // {/* <section id="dg-container" class="dg-container">
 //   <div class="dg-wrapper">
 // // </div>
@@ -177,98 +177,53 @@ module.exports = () => {
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-const personnagehtml = (character) => /* @html */`
-<!--
-<a href="#">
-  <img src="${character.image}" alt="${character.name}"/>
-  <p>"${character.name}"</p>
-  <ul class="menu">
-    <li role="separator" class="divider">
-      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-      VALIDER
-    </button>
-  </li>
-  </ul>
-</a> -->
+
+const personnagehtml = __webpack_require__(6)
+
+const carousel = characters => /* @html */ `
 <div id="myCarousel" class="carousel slide bg-inverse w-50 ml-auto mr-auto" data-ride="carousel">
   <div class="carousel-inner" role="listbox">
-    <div class="carousel-item active">
+  ${characters.map(personnagehtml).join('')}
+</div>
+<a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  <span class="sr-only">Previous</span>
+</a>
+<a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  <span class="sr-only">Next</span>
+</a>
+</div>
+`
+
+module.exports = carousel
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+const personnagehtml = (character, index) => /* @html */`
+
+    <div class="carousel-item ${index==0 ? 'active' : ''}">
       <img class="d-block w-100" src="${character.image}" alt="First slide">
       <p>"${character.name}"</p>
     </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="${character.image}" alt="Second slide">
-      <p>"${character.name}"</p>
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="${character.image}" alt="Third slide">
-      <p>"${character.name}"</p>
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
 
-
-  <!-- <section class="slider-for slider">
-
-  </section>
-  <section class="slider-nav slider">
-
-  </section>
-  <script type="text/javascript">
-    $(document).on('ready', function() {
-
-      $('.slider-for').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-        fade: true,
-        asNavFor: '.slider-nav'
-      });
-      $('.slider-nav').slick({
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        asNavFor: '.slider-for',
-        dots: true,
-        centerMode: true,
-        focusOnSelect: true
-      });
-
-    });
-  </script> -->
 `
-// function getData() {
-//     $.getJSON("item-data.json", function(results) {
-//         var slideShowArray = results.characters.map(item => item.Images.map(imgs =>[imgs.PrimaryImage[0].image, ...imgs.AlternateImages.map(alt => alt.image)]))[0][0];
-//         $.each(slideShowArray, function(k, v){
-//             var slidesBig = "<div><img src='" + v + "'></div>";
-//             var slidesSmall = "<div><img src='" + v + "'></div>";
-//             $(".slider-for").slick("slickAdd", slidesBig);
-//             $(".slider-nav").slick("slickAdd", slidesSmall);
-//         });
-//
-//     });
-// }
 
 module.exports=personnagehtml
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const render = __webpack_require__(0)
 // const searchFormEvents = require('./searchFormEvents')
-const chathtml = __webpack_require__(7)
+const chathtml = __webpack_require__(8)
 
 module.exports = () => {
   fetch('https://cdn.rawgit.com/akabab/starwars-api/0.2.1/api/all.json')
@@ -282,7 +237,7 @@ module.exports = () => {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 const chathtml = (character) => `

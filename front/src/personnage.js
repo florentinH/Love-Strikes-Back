@@ -1,6 +1,6 @@
 const render = require('./render')
 // const searchFormEvents = require('./searchFormEvents')
-const personnagehtml = require('./personnagehtml')
+const carousel = require('./carousel')
 // Requête une URL pour récupérer UN héros
 // $('#dg-container').gallery();
 module.exports = () => {
@@ -8,9 +8,8 @@ module.exports = () => {
   .then(response => response.json())
   .then(characters => {
 
-    const charactershtml = characters.map(personnagehtml)
-
-    render(charactershtml)
+    render(carousel(characters))
+    $("#myCarousel").carousel();
 
   })
 
