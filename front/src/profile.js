@@ -34,7 +34,7 @@ module.exports = () => {
       }
       else {
         LoggedInUser = data
-        page('/profile')
+        page('http://localhost:8000/rpg.html')
       }
       console.log(data)
     })
