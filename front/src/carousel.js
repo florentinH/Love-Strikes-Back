@@ -18,7 +18,7 @@ const carousel = characters => /* @html */ `
 </div>
 <div class="row">
   <div class="col-md-2 offset-md-7">
-    <button id="buttonVal" class="btn">Validé</button>
+    <button id="buttonVal" class="btn btn-warning">Validé</button>
   </div>
 </div>
 </div>
