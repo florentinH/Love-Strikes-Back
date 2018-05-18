@@ -1,8 +1,10 @@
 const render = require('./render')
 // const searchFormEvents = require('./searchFormEvents')
 const homehtml = require('./homehtml')
-const navBar = require('./navBar')
+const navBarhtml = require('./navBarhtml')
+const setEventListeners = require('./setEventListeners')
 
 module.exports = () => {
-  render(navBar() + homehtml())
+  render(navBarhtml() + homehtml())
+  setEventListeners()
 }

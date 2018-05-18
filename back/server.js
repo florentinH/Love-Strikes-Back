@@ -167,6 +167,40 @@ app.post('/sign-in', (req, res) => {
   })
 })
 
+app.post('/update-profile', (req, res) => {
+  console.log(req.body)
+
+  const pseudo = req.session.user.Pseudo
+  const age = req.body.age
+  const job = req.body.job
+  const description = req.body.description
+  const leitimov = req.body.leitimov
+  const query1 = `UPDATE Profile SET Age = '${age}', Job = '${job}', Description = '${description}', Leitimov = '${leitimov}' WHERE Pseudo = '${pseudo}'`
+  console.log(query1)
+
+  connection.query(query1, (error, resultats) => {
+  console.log(resultats)
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+    const query2 = `SELECT * FROM Profile WHERE Pseudo = '${pseudo}'`
+    connection.query(query2, (error, results) => {
+      if (error) {
+        return res.status(500).json({
+          error: error.message
+        })
+      }
+      const user = results[0]
+      for(let key in user) {
+          req.session.user[key] = user[key]
+        }
+      res.json(user)
+    })
+  })
+})
+
 app.get('*', (req, res) => {
   console.log(req.session.user)
   res.send(indexHtml(req.session.user))

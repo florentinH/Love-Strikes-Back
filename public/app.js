@@ -65,10 +65,14 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+
+const removeBackdrops = __webpack_require__(3)
 
 const render = html =>{
   document.getElementById('main').innerHTML=html
+  removeBackdrops()
 }
 
 
@@ -83,8 +87,8 @@ module.exports=render
 
 
 const home = __webpack_require__(2)
-const personnage = __webpack_require__(6)
-const profile = __webpack_require__(8)
+const personnage = __webpack_require__(7)
+const profile = __webpack_require__(9)
 
 
 
@@ -109,16 +113,33 @@ page()
 
 const render = __webpack_require__(0)
 // const searchFormEvents = require('./searchFormEvents')
-const homehtml = __webpack_require__(3)
-const navBar = __webpack_require__(4)
+const homehtml = __webpack_require__(4)
+const navBarhtml = __webpack_require__(5)
+const setEventListeners = __webpack_require__(6)
 
 module.exports = () => {
-  render(navBar() + homehtml())
+  render(navBarhtml() + homehtml())
+  setEventListeners()
 }
 
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+function removeBackdrops() {
+  const backdrops = document.getElementsByClassName('modal-backdrop')
+  if (backdrops.length > 0) {
+    document.body.removeChild(backdrops[0])
+  }
+  document.body.classList.remove('modal-open')
+}
+
+module.exports = removeBackdrops
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 const homehtml = () => `
@@ -158,110 +179,6 @@ Si toi aussi tu veux devenir le jedi qui recherche l'amour, rejoins l'amour cont
 `
 
 module.exports=homehtml
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const navBarhtml = __webpack_require__(5)
-
-function removeBackdrops() {
-  const backdrops = document.getElementsByClassName('modal-backdrop')
-  if (backdrops.length > 0) {
-    document.body.removeChild(backdrops[0])
-  }
-  document.body.classList.remove('modal-open')
-}
-
-
-function setEventListeners (){
-    const signIn = document.getElementById('form-post')
-    signIn.addEventListener('submit', event => {
-
-      event.preventDefault()
-      const inputs = signIn.getElementsByTagName('input')
-      let data = {}
-      for (let input of inputs) {
-        if (input.name !== '') {
-         data[input.name] = input.value
-        }
-      }
-
-      const dataJSON = JSON.stringify(data)
-      console.log(dataJSON)
-      fetch('/sign-in', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: dataJSON
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          alert(data.error)
-        }
-        else {
-          LoggedInUser = data
-          page('/profile')
-        }
-        console.log(data)
-      })
-    })
-
-      const signUp = document.getElementById('form-account')
-      console.log(signUp)
-      signUp.addEventListener('submit', event => {
-
-        event.preventDefault()
-        const inputsForm = signUp.getElementsByTagName('input')
-        let accountData = {}
-        for (let input of inputsForm) {
-          if (input.name !== '') {
-              accountData[input.name] = input.value
-          }
-          if (input.value === '') {
-            return alert('Veuillez renseigner tous les champs')
-          }
-        }
-        const accountDataJSON = JSON.stringify(accountData)
-
-
-        fetch('/sign-up', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include',
-          body: accountDataJSON
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.error) {
-            alert(data.error)
-          }
-          else {
-            LoggedInUser = data
-            page('/personnage')
-          }
-          console.log(accountData)
-        })
-    })
-}
-
-module.exports = mainHTML => {
-
-  mainDiv.innerHTML = navBar+ mainHTML + footerHtml
-
-  if (LoggedInUser === undefined) {
-    setEventListeners ()
-  }
-  removeBackdrops()
-}
 
 
 /***/ }),
@@ -334,7 +251,7 @@ module.exports = () => `<nav class="navbar navbar-expand-sm bg-custom">
                            </div>
                        </div>
                        <div class="form-group row">
-                           <label for="email" class="col-sm-4 col-form-label">Genre : </label>
+                           <label for="gender" class="col-sm-4 col-form-label">Genre : </label>
                            <div class="col-sm-6">
                              <select id="gender" name="gender" class="form-control">
                               <option value="male">Homme</option>
@@ -358,11 +275,96 @@ module.exports = () => `<nav class="navbar navbar-expand-sm bg-custom">
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports) {
+
+function setEventListeners (){
+    const signIn = document.getElementById('form-post')
+    signIn.addEventListener('submit', event => {
+
+      event.preventDefault()
+      const inputs = signIn.getElementsByTagName('input')
+      let data = {}
+      for (let input of inputs) {
+        if (input.name !== '') {
+         data[input.name] = input.value
+        }
+      }
+
+      const dataJSON = JSON.stringify(data)
+      console.log(dataJSON)
+      fetch('/sign-in', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: dataJSON
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          alert(data.error)
+        }
+        else {
+          LoggedInUser = data
+          page('/profile')
+        }
+        console.log(data)
+      })
+    })
+
+      const signUp = document.getElementById('form-account')
+      console.log(signUp)
+      signUp.addEventListener('submit', event => {
+
+        event.preventDefault()
+        const inputsForm = signUp.getElementsByClassName('form-control')
+        let accountData = {}
+        for (let input of inputsForm) {
+          if (input.name !== '') {
+              accountData[input.name] = input.value
+          }
+          if (input.value === '') {
+            return alert('Veuillez renseigner tous les champs')
+          }
+        }
+        const accountDataJSON = JSON.stringify(accountData)
+
+
+        fetch('/sign-up', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: accountDataJSON
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            alert(data.error)
+          }
+          else {
+            LoggedInUser = data
+            page('/personnage')
+          }
+          console.log(accountData)
+        })
+    })
+}
+
+module.exports = setEventListeners
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const render = __webpack_require__(0)
 // const searchFormEvents = require('./searchFormEvents')
-const personnagehtml = __webpack_require__(7)
+const personnagehtml = __webpack_require__(8)
 
 module.exports = () => {
   render(personnagehtml())
@@ -370,7 +372,7 @@ module.exports = () => {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 const personnagehtml = () => `
@@ -381,59 +383,96 @@ module.exports=personnagehtml
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const render = __webpack_require__(0)
 // const searchFormEvents = require('./searchFormEvents')
-const profilehtml = __webpack_require__(9)
+const profilehtml = __webpack_require__(10)
 
 module.exports = () => {
   render(profilehtml())
+  const updateProfile = document.getElementById('form-profile')
+  updateProfile.addEventListener('submit', event => {
+
+    event.preventDefault()
+    const inputs = updateProfile.getElementsByClassName('form-control')
+    let data = {}
+    for (let input of inputs) {
+      if (input.name !== '') {
+       data[input.name] = input.value
+      }
+    }
+
+    const profileDataJSON = JSON.stringify(data)
+    console.log(profileDataJSON)
+    fetch('/update-profile', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: profileDataJSON
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        alert(data.error)
+      }
+      else {
+        LoggedInUser = data
+        page('/profile')
+      }
+      console.log(data)
+    })
+  })
 }
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 const profilehtml = () => `
 <h2>Deviens un vrai Jedi de l'amour</h2>
-<form>
+<form id="form-profile" method="POST" action="/update-profile">
   <div class="form-group row">
     <label for="age" class="col-sm-2 col-form-label">Quel age as-tu ?</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="age" placeholder="150">
+      <input type="text" class="form-control" id="age" name="age" placeholder="150">
     </div>
   </div>
   <div class="form-group row">
     <label for="job" class="col-sm-2 col-form-label">Que fais-tu dans la vie ?</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="job" placeholder="Padawan">
+      <input type="text" class="form-control" id="job" name="job" placeholder="Padawan">
     </div>
   </div>
   <div class="form-group row">
     <label for="description" class="col-sm-2 col-form-label">Qui es-tu ?</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="description" placeholder="Salut ! Je suis Germain, passionné d'art martiaux !">
+      <input type="text" class="form-control" id="description" name="description" placeholder="Salut ! Je suis Germain, passionné d'art martiaux !">
     </div>
   </div>
   <div class="form-group row">
     <label for="leitimov" class="col-sm-2 col-form-label">Ta réplique préférée de Star Wars :</label>
     <div class="col-sm-10">
       <select id="leitimov" name="leitimov" class="form-control">
-       <option value="1">"La force sera avec toi, toujours." - Ben Kenobi</option>
-       <option value="2">"Plutôt embrasser un wookie!" - Leia Organa</option>
-       <option value="3">"Non, je suis ton père." - Dark Vador</option>
-       <option value="4">"Il y en a toujours un pour manger l'autre" - Qui-Gon Jinn</option>
-       <option value="5">"La peur est le chemin vers le côté obscur: la peur mène à la colère,  le colère mène à la haine, la haine mène à la souffrance." - Yoda</option>
-       <option value="6">"Tu ne vends pas de bâtons de la mort, tu vas rentrer chez toi et penser à ton avenir." - Obi-Wan Kenobi</option>
-       <option value="7">"Même si notre armement est assez puissant pour détruire une planète, il est bien peu de chose en comparaison de la Force" - Dark Vador</option>
-       <option value="8">"C''est donc ainsi que s''achève la liberté, sous un tonnerre d''applaudissements." - Padmé Amidala</option>
-       <option value="9" selected>"Chewie, on est à la maison." - Han Solo</option>
+       <option value=''\"La force sera avec toi, toujours.\" - Ben Kenobi'>"La force sera avec toi, toujours." - Ben Kenobi</option>
+       <option value=""Plutôt embrasser un wookie!" - Leia Organa">"Plutôt embrasser un wookie!" - Leia Organa</option>
+       <option value=""Non, je suis ton père." - Dark Vador">"Non, je suis ton père." - Dark Vador</option>
+       <option value=""Il y en a toujours un pour manger l'autre" - Qui-Gon Jinn">"Il y en a toujours un pour manger l'autre" - Qui-Gon Jinn</option>
+       <option value=""La peur est le chemin vers le côté obscur: la peur mène à la colère,  le colère mène à la haine, la haine mène à la souffrance." - Yoda">"La peur est le chemin vers le côté obscur: la peur mène à la colère,  le colère mène à la haine, la haine mène à la souffrance." - Yoda</option>
+       <option value=""Tu ne vends pas de bâtons de la mort, tu vas rentrer chez toi et penser à ton avenir." - Obi-Wan Kenobi">"Tu ne vends pas de bâtons de la mort, tu vas rentrer chez toi et penser à ton avenir." - Obi-Wan Kenobi</option>
+       <option value=""Même si notre armement est assez puissant pour détruire une planète, il est bien peu de chose en comparaison de la Force" - Dark Vador">"Même si notre armement est assez puissant pour détruire une planète, il est bien peu de chose en comparaison de la Force" - Dark Vador</option>
+       <option value=""C''est donc ainsi que s''achève la liberté, sous un tonnerre d''applaudissements." - Padmé Amidala">"C''est donc ainsi que s''achève la liberté, sous un tonnerre d''applaudissements." - Padmé Amidala</option>
+       <option value=""Chewie, on est à la maison." - Han Solo" selected>"Chewie, on est à la maison." - Han Solo</option>
     </div>
   </div>
 </form>
+<input form="form-profile" type="submit" class="btn btn-primary" value="Valider">
+
 `
 
 module.exports=profilehtml

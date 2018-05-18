@@ -64,7 +64,7 @@ module.exports = () => `<nav class="navbar navbar-expand-sm bg-custom">
                            </div>
                        </div>
                        <div class="form-group row">
-                           <label for="email" class="col-sm-4 col-form-label">Genre : </label>
+                           <label for="gender" class="col-sm-4 col-form-label">Genre : </label>
                            <div class="col-sm-6">
                              <select id="gender" name="gender" class="form-control">
                               <option value="male">Homme</option>
