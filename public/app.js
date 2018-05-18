@@ -102,9 +102,9 @@ const checkLoginMiddleware = (context, next) => {
 }
 
 page("/", home)
-page("/personnage", checkLoginMiddleware, personnage)
-page("/profile", checkLoginMiddleware, profile)
-page("/chat", checkLoginMiddleware, chat)
+page("/personnage", personnage)
+page("/profile", profile)
+page("/chat", chat)
 // page("/pagePerso",checkLoginMiddleware, showMyProfile)
 page()
 
@@ -381,8 +381,9 @@ module.exports = () => {
     validAvatar.addEventListener('click', evt => {
       const active = document.getElementsByClassName('active')
       console.log(active)
+      page('/profile')
     })
-    page('/profile')
+
   })
 
 }
