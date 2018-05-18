@@ -174,8 +174,8 @@ app.post('/update-profile', (req, res) => {
   const age = req.body.age
   const job = req.body.job
   const description = req.body.description
-  const leitimov = req.body.leitimov
-  const query1 = `UPDATE Profile SET Age = '${age}', Job = '${job}', Description = '${description}', Leitimov = '${leitimov}' WHERE Pseudo = '${pseudo}'`
+  // const leitimov = req.body.leitimov
+  const query1 = `UPDATE Profile SET Age = '${age}', Job = '${job}', Description = '${description}' WHERE Pseudo = '${pseudo}'`
   console.log(query1)
 
   connection.query(query1, (error, resultats) => {
